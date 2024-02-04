@@ -1,7 +1,12 @@
 # Modeling_Tranportation_Burger_Equations
 #### Étude et application de quelques schémas aux différences finies pour deux lois de conservation
-
 On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L].
+
+# Contribution
+- Saturné AYIDEGNON
+- Généreux AKOTENOU
+
+<!-- On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L].
 
 #### 1. Equation de transport
 On considère tout d’abord l’équation de transport soumise à des conditions aux limites périodiques :
@@ -44,4 +49,4 @@ $
 5. Reprendre les questions 1), 3) et 4).
 
 ##### Données :
-$L = 6$ m , $u_0(x) = 0.4$ pour $x < 2$ m et $0.1$ ailleurs. $CFL = 0.8$.
+$L = 6$ m , $u_0(x) = 0.4$ pour $x < 2$ m et $0.1$ ailleurs. $CFL = 0.8$. -->
