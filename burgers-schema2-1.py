@@ -10,18 +10,15 @@ import matplotlib.pyplot as plt
 
 # U0
 def uO(x):
-    if (3 <= x <= 4):
-        return 1
-    return 0
+    if x < 2:
+        return 0.4
+    return 0.1
 
 # Dimenssions(Longeur) de la barre
-L = 10
-
-# Vitesse
-a = 2
+L = 6
 
 # Nombre de neuds
-N = 100
+N = 200
 
 # Nombre de Courant
 CFL = 0.8
@@ -31,9 +28,8 @@ dx = L / (N-1)
 
 # Maillage de la barre
 x = np.linspace(0, L, N)
-print(x)
 
-# Conditions limites
+# Conditions initiales
 U = np.array([uO(x[i]) for i in range(N)])
 
 # Temps
@@ -41,12 +37,10 @@ temps = 0
 tempsArret = 4.5
 
 # pas de temps
-dt = (dx * CFL) / a
-lamba = (dt * a)/dx
+dt = (dx * CFL) / 1
+lamba = (dt * 1)/dx
 Unew = np.zeros(N)
 Uexa = np.zeros(N)
-
-
     
 # ----------------------------
 # Solution exacte
@@ -54,8 +48,8 @@ Uexa = np.zeros(N)
 
 # Solution Exacte
 def u_exacte(x, t):
-    y = (x - (a*t)) % L
-    return np.where((3 <= y) & (y <= 4), 1, 0)
+    y = (x - (Uexa*t))
+    return np.where(y < 2, 0.4, 0.1)
 
 # ----------------------------
 # Modelisation
@@ -64,14 +58,14 @@ def u_exacte(x, t):
 while (temps < tempsArret):
     for i in range(1, N-1):
         # Décentré amont
-        Unew[i] = U[i] - lamba*(U[i] - U[i-1]) 
+        Unew[i] = U[i] - lamba*U[i]*(U[i+1] - U[i]) 
         
 
     # Solution exacte
     Uexa = u_exacte(x, temps)
     
     
-    Unew[0] = Unew[N-1]
+    Unew[0] = Unew[1]
     Unew[N-1] = Unew[N-2]
     
     temps += dt
@@ -80,7 +74,8 @@ while (temps < tempsArret):
     
     # Plot
     plt.figure(figsize=(20,12))
-    plt.ylim(-3, 3)
+    plt.ylim(-0.5, 1)
+    plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
     plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={tempsArret}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')

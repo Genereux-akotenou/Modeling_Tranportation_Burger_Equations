@@ -1,4 +1,4 @@
-# mini projet - schema 2: Décentré amont
+# mini projet - schema 2: Décentré aval
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,7 +21,7 @@ L = 10
 a = 2
 
 # Nombre de neuds
-N = 100
+N = 200
 
 # Nombre de Courant
 CFL = 0.8
@@ -41,7 +41,7 @@ temps = 0
 tempsArret = 4.5
 
 # pas de temps
-dt = (dx * CFL) / a
+dt = (dx * CFL) / np.abs(a)
 lamba = (dt * a)/dx
 Unew = np.zeros(N)
 Uexa = np.zeros(N)
@@ -64,7 +64,7 @@ def u_exacte(x, t):
 while (temps < tempsArret):
     for i in range(1, N-1):
         # Décentré amont
-        Unew[i] = U[i] - lamba*(U[i] - U[i-1]) 
+        Unew[i] = U[i] - lamba*(U[i + 1] - U[i]) 
         
 
     # Solution exacte
