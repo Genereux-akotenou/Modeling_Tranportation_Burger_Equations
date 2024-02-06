@@ -21,7 +21,7 @@ L = 10
 a = 2
 
 # Nombre de neuds
-N = 100
+N = 200
 
 # Nombre de Courant
 CFL = 0.8
@@ -33,12 +33,12 @@ dx = L / (N-1)
 x = np.linspace(0, L, N)
 print(x)
 
-# Conditions limites
+# Conditions initiale
 U = np.array([uO(x[i]) for i in range(N)])
 
 # Temps
 temps = 0
-tempsArret = 2.5
+tempsArret = 4.5
 
 # pas de temps
 dt = (dx * CFL) / a
@@ -78,9 +78,9 @@ while (temps < tempsArret):
 
     
     # Plot
-    plt.figure(figsize=(20,12))
+    plt.figure(figsize=(17,10))
     plt.ylim(-3, 3)
-    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={tempsArret}s")
+    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={temps}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')
     plt.grid()

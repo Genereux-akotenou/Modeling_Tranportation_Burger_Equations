@@ -21,7 +21,7 @@ L = 10
 a = 2
 
 # Nombre de neuds
-N = 100
+N = 200
 
 # Pas du maillage
 dx = L / (N-1)
@@ -29,12 +29,12 @@ dx = L / (N-1)
 # Maillage de la barre
 x = np.linspace(0, L, N)
 
-# Conditions limites
+# Conditions initiale
 U = np.array([uO(x[i]) for i in range(N)])
 
 # Temps
 temps = 0
-tempsArret = 2.5
+tempsArret = 4.5
 
 # pas de temps
 dt = 0.1
@@ -70,9 +70,9 @@ while (temps < tempsArret):
     U = Unew.copy()
     
     # Plot
-    plt.figure(figsize=(20,12))
+    plt.figure(figsize=(17,10))
     plt.ylim(-3, 3)
-    plt.plot(x, U, "-or", label=f"Solution approchée, N={N}, t={tempsArret}s")
+    plt.plot(x, U, "-or", label=f"Solution approchée, N={N}, t={temps}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')
     plt.grid()

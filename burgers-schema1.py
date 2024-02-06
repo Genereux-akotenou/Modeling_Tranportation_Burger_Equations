@@ -20,6 +20,9 @@ L = 6
 # Nombre de neuds
 N = 100
 
+# Nombre de Courant
+CFL = 0.8
+
 # Pas du maillage
 dx = L / (N-1)
 
@@ -33,10 +36,7 @@ U = np.array([uO(x[i]) for i in range(N)])
 temps = 0
 tempsArret = 2.5
 
-# pas de temps
-dt = 0.1
-lamba = dt/dx
-lamba = dt/dx
+# init
 Unew = np.zeros(N)
 Uexa = np.zeros(N)
 
@@ -49,11 +49,16 @@ def u_exacte(x, t):
     y = (x - (Uexa*t))
     return np.where(y < 2, 0.4, 0.1)
 
+
 # ----------------------------
 # Modelisation
 # ----------------------------
 
 while (temps < tempsArret):
+    # pas de temps
+    dt = (CFL * dx) / max(np.abs(U))
+    lamba = dt/dx
+    
     for i in range(1, N-1):
         # Schema centré
         Unew[i] = U[i] - (lamba/2)*U[i]*(U[i+1] - U[i-1]) 
@@ -68,10 +73,10 @@ while (temps < tempsArret):
     U = Unew.copy()
     
     # Plot
-    plt.figure(figsize=(20,12))
+    plt.figure(figsize=(17,10))
     plt.ylim(-0.5, 1)
     plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-    plt.plot(x, U, "-or", label=f"Solution approchée, N={N}, t={tempsArret}s")
+    plt.plot(x, U, "-or", label=f"Solution approchée, N={N}, t={round(temps, 4)}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')
     plt.grid()

@@ -1,10 +1,13 @@
 # Modeling_Tranportation_Burger_Equations
 #### Étude et application de quelques schémas aux différences finies pour deux lois de conservation
-On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L].
+On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L]. On s'interrese a l'équation de transport et l'équation de burgers.'
 
 # Contribution
 - Saturné AYIDEGNON
 - Généreux AKOTENOU
+
+# UNIFERSITY: 
+UM6P
 
 <!-- On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L].
 

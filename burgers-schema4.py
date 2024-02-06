@@ -29,16 +29,14 @@ dx = L / (N-1)
 # Maillage de la barre
 x = np.linspace(0, L, N)
 
-# Conditions limites
+# Conditions initial
 U = np.array([uO(x[i]) for i in range(N)])
 
 # Temps
 temps = 0
 tempsArret = 2.5
 
-# pas de temps
-dt = (dx * CFL) / 1
-lamba = (dt * 1)/dx
+# init
 Unew = np.zeros(N)
 Uexa = np.zeros(N)
 
@@ -50,24 +48,32 @@ Uexa = np.zeros(N)
 
 # Solution Exacte
 def u_exacte(x, t):
-    y = (x - (Uexa*t))
-    return np.where(y < 2, 0.4, 0.1)
+    y = (x - 2) / t
+    return np.where(y < 0.25, 0.4, 0.1)
+
+def F(u):
+    return (u*u) / 2
 
 # ----------------------------
 # Modelisation
 # ----------------------------
 
 while (temps < tempsArret):
+    # pas de temps
+    dt = (CFL * dx) / max(np.abs(U))
+    lamba = dt/dx
+    
     for i in range(1, N-1):
         # Schema Lax-Wendroff
-        Unew[i] = U[i] - U[i]*(lamba/2)*(U[i+1] - U[i-1]) + U[i]*(lamba**2/2)*(U[i-1] - 2*U[i] + U[i+1])
+        alpha = 1 - ((dt*(U[i+1] - U[i])) / (2*dx)) 
+        Unew[i] = U[i] +  U[i]*(lamba**2/2)*(F(U[i-1]) - 2*F(U[i]) + F(U[i+1])) - alpha*(lamba/2)*(F(U[i+1]) - F(U[i-1])) 
         
         
     # Solution exacte
     Uexa = u_exacte(x, temps)
     
     
-    Unew[0] = Unew[N-1]
+    Unew[0] = Unew[1]
     Unew[N-1] = Unew[N-2]
     
     temps += dt
@@ -75,10 +81,10 @@ while (temps < tempsArret):
 
     
     # Plot
-    plt.figure(figsize=(20,12))
+    plt.figure(figsize=(18,10))
     plt.ylim(-0.5, 1)
     plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={tempsArret}s")
+    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={round(temps, 4)}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')
     plt.grid()

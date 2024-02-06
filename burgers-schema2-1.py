@@ -1,4 +1,4 @@
-# mini projet - schema 2: Décentré amont
+# mini projet - schema 2: Décentré aval
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ def uO(x):
 L = 6
 
 # Nombre de neuds
-N = 200
+N = 100
 
 # Nombre de Courant
 CFL = 0.8
@@ -34,11 +34,9 @@ U = np.array([uO(x[i]) for i in range(N)])
 
 # Temps
 temps = 0
-tempsArret = 4.5
+tempsArret = 2.5
 
-# pas de temps
-dt = (dx * CFL) / 1
-lamba = (dt * 1)/dx
+# init
 Unew = np.zeros(N)
 Uexa = np.zeros(N)
     
@@ -48,17 +46,24 @@ Uexa = np.zeros(N)
 
 # Solution Exacte
 def u_exacte(x, t):
-    y = (x - (Uexa*t))
-    return np.where(y < 2, 0.4, 0.1)
+    y = (x - 2) / t
+    return np.where(y < 0.25, 0.4, 0.1)
+
+def F(u):
+    return (u*u) / 2
 
 # ----------------------------
 # Modelisation
 # ----------------------------
 
 while (temps < tempsArret):
+    # pas de temps
+    dt = (CFL * dx) / max(np.abs(U))
+    lamba = dt/dx
+    
     for i in range(1, N-1):
         # Décentré amont
-        Unew[i] = U[i] - lamba*U[i]*(U[i+1] - U[i]) 
+        Unew[i] = U[i] - lamba*(F(U[i+1]) - F(U[i]))
         
 
     # Solution exacte
@@ -73,14 +78,14 @@ while (temps < tempsArret):
 
     
     # Plot
-    plt.figure(figsize=(20,12))
+    plt.figure(figsize=(17,10))
     plt.ylim(-0.5, 1)
     plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={tempsArret}s")
+    plt.plot(x, U, "-r", label=f"Solution approchée, N={N}, t={round(temps, 4)}s")
     plt.plot(x, Uexa, "-b", label="Solution exacte")
     plt.legend(loc='upper right')
     plt.grid()
-    plt.pause(0.01)
+    plt.pause(0.001)
     
 
 # ----------------------------
