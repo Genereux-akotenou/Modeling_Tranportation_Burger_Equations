@@ -6,7 +6,7 @@ On souhaite étudier, appliquer et voir le comportement de quelques schémas aux
 - Saturné AYIDEGNON
 - Généreux AKOTENOU
 
-# UNIFERSITY: 
+# FROM: 
 UM6P
 
 <!-- On souhaite étudier, appliquer et voir le comportement de quelques schémas aux différences finies pour deux équations relevant de lois de conservation 1D définies sur un domaine Ω = [0, L].
